@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Pedidos | Cloudy Kicks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #1798c1;
+            --secondary: #f1f1f1;
+            --accent: #ff6b6b;
+            --success: #28a745;
+            --warning: #ffc107;
+            --pending: #17a2b8;
+            --delivered: #28a745;
+            --cancelled: #dc3545;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .user-welcome {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 120px auto 40px;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        .orders-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .order-card {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .order-card:last-child {
+            border-bottom: none;
+        }
+
+        .order-head {
+            font-weight: bold;
+            color: #000;
+        }
+
+        .order-number {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .order-desc {
+            color: #666;
+        }
+
+        .order-date {
+            color: #666;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .status-pending {
+            background-color: var(--pending);
+        }
+
+        .status-delivered {
+            background-color: var(--delivered);
+        }
+
+        .status-cancelled {
+            background-color: var(--cancelled);
+        }
+
+        .order-delivery-date {
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .order-card {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .order-card > div {
+                padding: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">Cloudy Kicks</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#sneakers">Sneakers</a>
+                <a href="#releases">Lançamentos</a>
+                <a href="#contato">Contato</a>
+                <span class="user-welcome" id="userWelcome"></span>
+                <button class="logout-btn" id="logoutBtn">Sair</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <h1 class="page-title">Meus Pedidos</h1>
+        <div class="orders-container" id="ordersContainer">
+            <!-- Os pedidos serão inseridos aqui via JavaScript -->
+        </div>
+    </main>
+
+    <script>
+        // Verificar se usuário está logado
+        document.addEventListener('DOMContentLoaded', () => {
+            const username = sessionStorage.getItem('username');
+            if (!username) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Exibir nome do usuário
+            const userWelcome = document.getElementById('userWelcome');
+            userWelcome.textContent = `Olá, ${username}!`;
+
+            // Dados simulados dos últimos 5 pedidos
+            const orders = [
+                {
+                    number: "PED123456",
+                    description: "Nike Air Max 90 - Preto/Branco",
+                    purchaseDate: "2024-02-15",
+                    status: "delivered",
+                    deliveryDate: "2024-02-20"
+                },
+                {
+                    number: "PED123457",
+                    description: "Adidas Ultraboost - Azul",
+                    purchaseDate: "2024-03-01",
+                    status: "pending",
+                    deliveryDate: "2024-03-10"
+                },
+                {
+                    number: "PED123458",
+                    description: "Puma RS-X - Branco",
+                    purchaseDate: "2024-03-10",
+                    status: "delivered",
+                    deliveryDate: "2024-03-15"
+                },
+                {
+                    number: "PED123459",
+                    description: "Jordan 1 Low - Vermelho",
+                    purchaseDate: "2024-03-20",
+                    status: "cancelled",
+                    deliveryDate: null
+                },
+                {
+                    number: "PED123460",
+                    description: "New Balance 574 - Cinza",
+                    purchaseDate: "2024-03-25",
+                    status: "pending",
+                    deliveryDate: "2024-04-05"
+                }
+            ];
+
+            // Função para formatar data
+            function formatDate(dateString) {
+                if (!dateString) return '-';
+                const date = new Date(dateString);
+                return date.toLocaleDateString('pt-BR');
+            }
+
+            // Função para traduzir status
+            function getStatusText(status) {
+                const statusMap = {
+                    'pending': 'Em Andamento',
+                    'delivered': 'Entregue',
+                    'cancelled': 'Cancelado'
+                };
+                return statusMap[status] || status;
+            }
+
+            // Renderizar pedidos
+            const ordersContainer = document.getElementById('ordersContainer');
+            const header = document.createElement('div');
+            header.className = 'order-card';
+            header.innerHTML = `
+                <div class="order-head">Nº PEDIDO</div>
+                <div class="order-head">PRODUTO</div>
+                <div class="order-head">COMPRA</div>
+                <div class="order-head">STATUS</div>
+                <div class="order-head">ENTREGA</div>
+            `;           
+
+            ordersContainer.appendChild(header);
+            orders.forEach(order => {
+                const orderElement = document.createElement('div');
+                orderElement.className = 'order-card';
+                orderElement.innerHTML = `
+                    <div class="order-number">${order.number}</div>
+                    <div class="order-desc">${order.description}</div>
+                    <div class="order-date">${formatDate(order.purchaseDate)}</div>
+                    <div>
+                        <span class="status-badge status-${order.status}">
+                            ${getStatusText(order.status)}
+                        </span>
+                    </div>
+                    <div class="order-delivery-date">${formatDate(order.deliveryDate)}</div>
+                `;
+                ordersContainer.appendChild(orderElement);
+            });
+        });
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            sessionStorage.removeItem('username');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
