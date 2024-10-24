@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salesforce Cloudy Kicks | Sneaker Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #1798c1;
+            --secondary: #f1f1f1;
+            --accent: #ff6b6b;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .login-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #147a9c;
+        }
+
+        .hero {
+            margin-top: 80px;
+            height: 500px;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/api/placeholder/1200/600');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            font-size: 24px;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 1rem;
+        }
+
+        .products {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .user-welcome {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">Cloudy Kicks</div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#sneakers">Sneakers</a>
+                <a href="#releases">Lançamentos</a>
+                <a href="#contato">Contato</a>
+                <span class="user-welcome" id="userWelcome"></span>
+                <button class="login-btn" id="loginBtn">Login</button>
+            </div>
+        </nav>
+    </header>
+
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login</h2>
+                <span class="close-btn" id="closeModal">&times;</span>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Usuário:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="submit-btn">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Bem-vindo à Cloudy Kicks</h1>
+            <p>Descubra os melhores sneakers para seu estilo</p>
+            <button class="login-btn">Explorar Coleção</button>
+        </div>
+    </section>
+
+    <section class="products">
+        <h2>Destaques</h2>
+        <div class="products-grid">
+            <div class="product-card">
+                <img src="/api/placeholder/300/200" alt="Sneaker 1" class="product-image">
+                <div class="product-info">
+                    <h3>Air Cloud Max</h3>
+                    <p>R$ 899,99</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="/api/placeholder/300/200" alt="Sneaker 2" class="product-image">
+                <div class="product-info">
+                    <h3>Thunder Force</h3>
+                    <p>R$ 799,99</p>
+                </div>
+            </div>
+            <div class="product-card">
+                <img src="/api/placeholder/300/200" alt="Sneaker 3" class="product-image">
+                <div class="product-info">
+                    <h3>Lightning Boost</h3>
+                    <p>R$ 699,99</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Elementos do DOM
+        const loginBtn = document.getElementById('loginBtn');
+        const loginModal = document.getElementById('loginModal');
+        const closeModal = document.getElementById('closeModal');
+        const loginForm = document.getElementById('loginForm');
+        const userWelcome = document.getElementById('userWelcome');
+
+        // Exibir modal de login
+        loginBtn.addEventListener('click', () => {
+            loginModal.style.display = 'flex';
+        });
+
+        // Fechar modal
+        closeModal.addEventListener('click', () => {
+            loginModal.style.display = 'none';
+        });
+
+        // Fechar modal ao clicar fora dele
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
+        });
+
+        // Processar formulário de login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Aqui você normalmente faria uma validação com backend
+            if (username && password) {
+                // Atualizar UI com nome do usuário
+                userWelcome.textContent = `Olá, ${username}!`;
+                loginBtn.style.display = 'none';
+                loginModal.style.display = 'none';
+
+                // Limpar formulário
+                loginForm.reset();
+            }
+        });
+    </script>
+</body>
+</html>
