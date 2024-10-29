@@ -174,7 +174,23 @@
 	function initEmbeddedMessaging() {
 		try {
 			embeddedservice_bootstrap.settings.language = 'pt_BR'; // For example, enter 'en' or 'en-US'
-        
+			window.addEventListener("onEmbeddedMessagingReady", () => {
+				console.log("onEmbeddedMessagingReady event");
+				
+				embeddedservice_bootstrap.prechatAPI.setVisiblePrechatFields({
+				    "_firstName": {
+					"value": "Lukas",
+					"isEditableByEndUser": false
+				    },
+				    "_email": {
+					"value": "lukas@edge.com",
+					"isEditableByEndUser": true
+				    },
+				    "CPF": {
+					"value": "89874267771",
+					"isEditableByEndUser": false
+				    }					
+			});       
 			embeddedservice_bootstrap.init(
 				'00Dbm0000084LF9',
 				'ESD_MIAW',
