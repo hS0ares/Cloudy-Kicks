@@ -13,13 +13,13 @@
         }
 
         :root {
-            --primary: #1798c1;
+            --primary: #0176d3;
             --secondary: #f1f1f1;
             --accent: #ff6b6b;
         }
 
         body {
-            background-color: #f5f5f5;
+            background-color: #ffffff;
         }
 
         .header {
@@ -30,6 +30,16 @@
             width: 100%;
             top: 0;
             z-index: 1000;
+        }
+
+        .inner {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .einstein-ico {
+            height: 48px;
         }
 
         .nav {
@@ -46,21 +56,32 @@
             color: var(--primary);
         }
 
+        .destaques {
+            color: #002e60;
+        }
+
         .nav-links {
             display: flex;
             gap: 2rem;
-            align-items: center;
+            align-items: center;    
         }
 
         .nav-links a {
             color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
+            color: #002e60;
+            padding: 6px 8px;
+            border-radius: 30px;
         }
 
         .nav-links a:hover {
-            color: var(--primary);
+            color: #0475d7;
+            background-color: #ecf4fe;
         }
 
         .login-btn {
@@ -74,7 +95,7 @@
         }
 
         .login-btn:hover {
-            background-color: #147a9c;
+            background-color: #032c60;
         }
 
         .hero {
@@ -256,19 +277,19 @@
         }
 
         .carousel-slide:nth-child(1) {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/600');
+            background-image: url('highland-waterfalls.png');
             background-size: cover;
             background-position: center;
         }
 
         .carousel-slide:nth-child(2) {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/600');
+            background-image: url('arid-dunes.png');
             background-size: cover;
             background-position: center;
         }
 
         .carousel-slide:nth-child(3) {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/600');
+            background-image: url('highland-pond.png');
             background-size: cover;
             background-position: center;
         }
@@ -276,6 +297,15 @@
         .carousel-content {
             max-width: 800px;
             padding: 2rem;
+            z-index: 1;
+        }
+
+        .mask {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 0;
         }
 
         .carousel-content h1 {
@@ -367,7 +397,10 @@
  
     <header class="header">
         <nav class="nav">
-            <div class="logo">Cloudy Kicks</div>
+            <div class="inner">
+                <img class="einstein-ico" src="eintein-ico.png" alt="">
+                <div class="logo">Cloudy Kicks</div>
+            </div>
             <div class="nav-links">
                 <a href="#home">Home</a>
                 <a href="#sneakers">Sneakers</a>
@@ -403,6 +436,7 @@
         <div class="carousel">
             <div class="carousel-inner">
                 <div class="carousel-slide active">
+                    <div class="mask"></div>
                     <div class="carousel-content">
                         <h1>Bem-vindo à Cloudy Kicks</h1>
                         <p>Descubra os melhores sneakers para seu estilo</p>
@@ -410,6 +444,7 @@
                     </div>
                 </div>
                 <div class="carousel-slide">
+                    <div class="mask"></div>
                     <div class="carousel-content">
                         <h1>Novos Lançamentos</h1>
                         <p>Conheça nossa nova coleção de verão</p>
@@ -417,6 +452,7 @@
                     </div>
                 </div>
                 <div class="carousel-slide">
+                    <div class="mask"></div>
                     <div class="carousel-content">
                         <h1>Ofertas Especiais</h1>
                         <p>Até 40% de desconto em produtos selecionados</p>
@@ -435,26 +471,26 @@
     </section>
 
     <section class="products">
-        <h2>Destaques</h2>
+        <h2 class="destaques">Destaques</h2>
         <div class="products-grid">
             <div class="product-card">
-                <img src="tenis1.jpg" alt="Sneaker 1" class="product-image">
+                <img src="tenis-sf.png" alt="Sneaker 1" class="product-image">
                 <div class="product-info">
-                    <h3>Air Cloud Max</h3>
+                    <h3>Einstein Air Max</h3>
                     <p>R$ 899,99</p>
                 </div>
             </div>
             <div class="product-card">
-                <img src="tenis2.png" alt="Sneaker 2" class="product-image">
+                <img src="tenis-sf2.png" alt="Sneaker 2" class="product-image">
                 <div class="product-info">
-                    <h3>Thunder Force</h3>
+                    <h3>Mulesoft Force</h3>
                     <p>R$ 799,99</p>
                 </div>
             </div>
             <div class="product-card">
-                <img src="tenis3.png" alt="Sneaker 3" class="product-image">
+                <img src="tenis33.png" alt="Sneaker 3" class="product-image">
                 <div class="product-info">
-                    <h3>Lightning Boost</h3>
+                    <h3>Astro Lightning Boost</h3>
                     <p>R$ 699,99</p>
                 </div>
             </div>
